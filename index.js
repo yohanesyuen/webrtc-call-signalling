@@ -1,8 +1,20 @@
 //require our websocket library 
 var WebSocketServer = require('ws').Server;
 
+var http = require("http")
+var express = require("express")
+var app = express()
+var port = process.env.PORT || 5000
+
+app.use(express.static(__dirname + "/"))
+
+var server = http.createServer(app)
+server.listen(port)
+
+console.log("http server listening on %d", port)
+
 //creating a websocket server at port 9090 
-var wss = new WebSocketServer({ port: 9090 });
+var wss = new WebSocketServer({ server: server });
 
 //all connected to the server users 
 var users = {};
